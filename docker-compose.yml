@@ -1,0 +1,35 @@
+version: "3.9"
+services:
+  coffeflaskapp: 
+    build: .
+    ports: 
+      - "5001:5000"
+    links:
+      - cmysql
+      - cpostgres
+    volumes:
+      - "./src:/home/app/src"
+    #command: 
+     # - ls -la && python /home/app/src/app.py
+  cmysql:
+    image: mysql
+    ports:
+      - "3307:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=db_API
+    volumes: 
+      - mysql-data:/var/lib/mysql
+  cpostgres:
+    image: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db_API
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+volumes:
+  mysql-data:
+  postgres-data:
+
